@@ -319,6 +319,76 @@ function canTalk(user, room, connection, message) {
 
 		// remove zalgo
 		message = message.replace(/[\u0300-\u036f\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]{3,}/g,'');
+global.today = new Date();
+                if((today.getMinutes() - user.o3omessagetime)<0) {
+                        user.o3omessagetime = today.getMinutes();
+                }
+                        if((today.getMinutes() - user.o3omessagetime) > 1 || (today.getMinutes()- user.o3omessagetime) === 1){
+                        user.o3omessagetime = today.getMinutes();
+                        user.numMessages = 0;
+                        }
+                        user.numMessages += 1;
+                        if(user.numMessages == 12){
+                        user.mute(room.id, 7*60*1000);
+                         room.add('|html|<font color="#D6D3DC"><i><b> Silver Server</b> has muted ' + user.name + ' for 7 minutes(flood).</i></font>');
+                        user.o3omessagetime = today.getMinutes();
+                        user.numMessages = 0;
+                        return false
+                        }
+                        
+                                               return false;
+                                                }
+		
+			
+		if (room && room.idvar alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+			for (var i=0;i<alpha.length;i++) {
+				if(message.indexOf(alpha[i]) >= 0) {
+					if (message === message.toUpperCase() && message.toUpperCase >= 6) {
+						room.add('|c|'+ user.name+'|'+message);
+						user.warnCounter += 1;
+						room.add('|html|<font color="#D6D3DC">'+user.name+' was warned by '+'<i><b> Silver Server </b> '+'.' +  ' (caps)</i></font>');
+						user.send('|c|~|/warn '+'caps');
+						return false;
+					}
+				}
+			}
+
+    if (user.warnCounters > 4) {
+        room.add('|html|<font color="#D6D3DC">' + user.name + ' was muted by ' + '<i><b>Silver Server</b>(more than 4 warnings)</i></font>');
+        user.mute(room.id, 60 * 60 * 1000, true);
+        return false;
+    }
+    if (message.toLowerCase().indexOf(".psim") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+        user.warnCounters += 1;
+    }
+
+    if (message.toLowerCase().indexOf("play.pokemonshowdown.com") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+    }
+
+    if (message.toLowerCase().indexOf("psim") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+    }
+    if (message.toLowerCase().indexOf("ps im") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+    }
+    if (message.toLowerCase().indexOf("psi m") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+    }
+    if (message.toLowerCase().indexOf("p sim") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+    }
+    if (message.toLowerCase().indexOf(".prism") > -1) {
+        connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
+        return false;
+    }
 
 		if (room && room.id === 'lobby') {
 			var normalized = message.trim();
