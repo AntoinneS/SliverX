@@ -336,22 +336,7 @@ global.today = new Date();
                         return false
                         }
                         
-                                               return false;
-                                                }
-		
-			
-		if (room && room.idvar alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-			for (var i=0;i<alpha.length;i++) {
-				if(message.indexOf(alpha[i]) >= 0) {
-					if (message === message.toUpperCase() && message.toUpperCase >= 6) {
-						room.add('|c|'+ user.name+'|'+message);
-						user.warnCounter += 1;
-						room.add('|html|<font color="#D6D3DC">'+user.name+' was warned by '+'<i><b> Silver Server </b> '+'.' +  ' (caps)</i></font>');
-						user.send('|c|~|/warn '+'caps');
-						return false;
-					}
-				}
-			}
+                                               
 
     if (user.warnCounters > 4) {
         room.add('|html|<font color="#D6D3DC">' + user.name + ' was muted by ' + '<i><b>Silver Server</b>(more than 4 warnings)</i></font>');
