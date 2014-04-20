@@ -252,15 +252,14 @@
 			return connection.sendTo(target, "|noinit|joinfailed|The room '"+target+"' could not be joined.");
 		}
 		if (target.toLowerCase() == "lobby") {
-			return connection.sendTo('lobby','|html|<div class="broadcast-silver"><h1><center><b><u>Welcome to the Silver!</u></b></center></h1><br/><br/<center><img src="http://img834.imageshack.us/img834/5062/70785931.jpg"><br/><br/><center>What Can You Do Here?</center><hr>' +
+			return connection.sendTo('lobby','|html|<div class="broadcast-silver"><h1><center><b><u>Welcome to the Silver!</u></b></center></h1><br/><br/<center><img src="http://img834.imageshack.us/img834/5062/70785931.jpg"><br/><br/><center><b>What Can You Do Here?</b></center><hr>' +
 '<center><b>Participate In Tournaments For Money And Prizes!</b></center><br>' +
 '<center><b>Join Various Leagues And Clans!</b></center><br>' +
-'<center><b>Chat With Emoticons Our Change Your Name Color!</b></center><br>' +
 '<center><b>Our Just Hang Out And Chat</b></center><br>' +
 '<center><b>If You Liked Your Experience here Make Sure To Tell Your Friends About Us!</b></center><hr><br>' +
 '<center><b>For General Help For Server Commands Use /serverhelp</b></center><br>' +
 '<center><b>If You Have Any Problems Pm a Staff Member, Only Serious Problems Should Be Taken To Admins (~)</b></center><hr><br>' +
-'<center><a href="http://pokemonshowdown.com/rules"><button class="pinkbutton" title="Rules"><font color="white"><b>Rules</b></a></button>   |   <a href="http://www.smogon.com/sim/faq"><button class="pinkbutton" title="FAQs"><font color="white"><b>FAQs</b></a></button> </button></div>');
+'<center><a href="http://pokemonshowdown.com/rules"><button class="bluebutton" title="Rules"><font color="white"><b>Rules</b></a></button>   |   <a href="http://www.smogon.com/sim/faq"><button class="pinkbutton" title="FAQs"><font color="white"><b>FAQs</b></a></button> </button></div>');
 		}
 	},
 
