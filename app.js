@@ -400,6 +400,7 @@ process.on('uncaughtException', function(err) {
  *********************************************************/
 
 global.Sockets = require('./sockets.js');
+global.bot = require('./source/bot.js').bot();
 
 /*********************************************************
  * Set up our last global
@@ -433,6 +434,7 @@ fs.readFile('./config/ipbans.txt', function (err, data) {
 	Users.checkRangeBanned = Cidr.checker(rangebans);
 });
 
+global.Spamroom = require('./spamroom.js');
 
 // uptime recording
 fs.readFile('./logs/uptime.txt', function (err, uptime) {
@@ -444,17 +446,40 @@ fs.readFile('./logs/uptime.txt', function (err, uptime) {
 	}, (1).hour());
 });
 
-// load src files
+// load source files
 try {
-	global.customcommands = require('./src/custom-commands.js');
-	global.trainercards = require('./src/trainer-cards.js');
+	global.systemOperators = require('./source/system-operators.js').SystemOperatorOverRide();
 } catch (e) {
-	console.log('Error loading commands');
+	console.log('Error loading system-operators.js: ' + e.stack);
 }
-
 try {
-	global.hangman = require('./hangman.js').hangman();
+	global.io = require('./source/io.js');
 } catch (e) {
-	console.log('Error loading hangman');
+	console.log('Error loading io.js: ' + e.stack);
 }
-
+try {
+	global.customCommands = require('./source/custom-commands.js');
+	global.trainerCards = require('./source/trainer-cards.js');
+} catch (e) {
+	console.log('Error loading custom-commands.js or trainer-cards.js: ' + e.stack);
+}
+try {
+	global.profile = require('./source/profile.js');
+} catch (e) {
+	console.log('Error loading profile.js: ' + e.stack);
+}
+try {
+	global.Utilities = require('./source/utilities.js').Utilities;
+} catch (e) {
+	console.log('Error loading utilities.js: ' + e.stack);
+}
+try {
+	global.tour = require('./source/poll.js').tour();
+} catch (e) {
+	console.log('Error loading poll.js: ' + e.stack);
+}
+try {
+	global.hangman = require('./source/hangman.js').hangman();
+} catch (e) {
+	console.log('Error loading hangman.js: ' + e.stack);
+}

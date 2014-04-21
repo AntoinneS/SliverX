@@ -1,5 +1,7 @@
 require('es6-shim');
 
+const DEBUG = false;
+
 var TournamentGenerators = {
 	roundrobin: require('./generator-round-robin.js').RoundRobin,
 	elimination: require('./generator-elimination.js').Elimination
@@ -184,7 +186,7 @@ var Tournament = (function () {
 	};
 
 	Tournament.prototype.addUser = function (user, isAllowAlts, output) {
-		if (!isAllowAlts) {
+		if (!isAllowAlts && DEBUG === false) {
 			var users = {};
 			this.generator.getUsers().forEach(function (user) { users[user.name] = 1; });
 			var alts = user.getAlts();
@@ -521,10 +523,25 @@ var Tournament = (function () {
 		var to = Users.get(room.p2);
 
 		var result = 'draw';
-		if (from === winner)
+		if (from === winner) {
 			result = 'win';
-		else if (to === winner)
+			var elo = Utilities.calcElo(from, to);
+			if (elo[0] === undefined) elo[0] = 1000;
+			if (elo[1] === undefined) elo[1] = 1000;
+			io.stdoutString('db/elo.csv', from, 'elo', elo[0]);
+			setTimeout(function() {
+				io.stdoutString('db/elo.csv', to, 'elo', elo[1]);
+			}, 1000);
+		} else if (to === winner) {
 			result = 'loss';
+			var elo = Utilities.calcElo(to, from);
+			if (elo[0] === undefined) elo[0] = 1000;
+			if (elo[1] === undefined) elo[1] = 1000;
+			io.stdoutString('db/elo.csv', to, 'elo', elo[0]);
+			setTimeout(function() {
+				io.stdoutString('db/elo.csv', from, 'elo', elo[1]);
+			}, 1000);
+		}
 
 		if (result === 'draw' && !this.generator.isDrawingSupported) {
 			this.room.add('|tournament|battleend|' + from.name + '|' + to.name + '|' + result + '|' + room.battle.score.join(',') + '|fail');
@@ -563,6 +580,48 @@ var Tournament = (function () {
 	};
 	Tournament.prototype.onTournamentEnd = function () {
 		this.room.add('|tournament|end|' + JSON.stringify({results: this.generator.getResults().map(usersToNames), bracketData: this.getBracketData()}));
+		data = {results: this.generator.getResults().map(usersToNames), bracketData: this.getBracketData()};
+		data = data['results'].toString();
+		runnerUp = false;
+		if (data.indexOf(',') >= 0) { 
+			data = data.split(',');
+			winner = data[0];
+			if (data[1]) runnerUp = data[1];
+		} else {
+			winner = data;
+		}
+		tourSize = this.generator.users.size;
+		var amountPlayers = 4;
+		if (DEBUG === true) {
+			amountPlayers = 2;
+		} 
+		if (this.room.isOfficial && tourSize >= amountPlayers) {
+			firstMoney = Math.round(tourSize/5);
+			secondMoney = Math.round(firstMoney/4);
+			firstBuck = 'buck';
+			secondBuck = 'buck';
+			if (firstMoney > 1) firstBuck = 'bucks';
+			if (secondMoney > 1) secondBuck = 'bucks';
+			this.room.add('|raw|<b><font color=#24678d>'+sanitize(winner)+'</font> has also won <font color=#24678d>'+firstMoney+'</font> '+firstBuck+' for winning the tournament!</b>');
+			if (runnerUp) this.room.add('|raw|<b><font color=#24678d>'+sanitize(runnerUp)+'</font> has also won <font color=#24678d>'+secondMoney+'</font> '+secondBuck+' for winning the tournament!</b>');
+			var winnerUser = Users.get(toUserid(winner));
+			var secondUser = Users.get(toUserid(runnerUp));
+			if (winnerUser === undefined) {
+				this.room.add('Error: winner is undefined');
+			} else if (secondUser === undefined){
+				this.room.add('Error: runnerUp is undefined');
+			}else {
+				io.stdoutNumber('db/money.csv', winnerUser, 'money', firstMoney);
+				fs.appendFile('logs/transactions.log', '\n' + Date() + ': ' + winner + ' won ' + firstMoney + ' ' + firstBuck + ' from a tournament in ' + this.room.title + '.');
+				if (runnerUp) {
+					setTimeout(function() {
+						io.stdoutNumber('db/money.csv', secondUser, 'money', secondMoney);
+						fs.appendFile('logs/transactions.log', '\n' + Date() + ': ' + runnerUp + ' won ' + secondMoney + ' ' + secondBuck + ' from a tournament in ' + this.room.title + '.');
+					}, 1000);
+				}
+				io.stdoutNumber('db/tourWins.csv', winnerUser, 'tourWins', 1);
+			}
+		}
 		delete exports.tournaments[toId(this.room.id)];
 	};
 
@@ -658,12 +717,12 @@ CommandParser.commands.tournament = function (paramString, room, user) {
 			"More detailed help can be found <a href=\"https://gist.github.com/kotarou3/7872574\">here</a>"
 		);
 	} else if (cmd === 'create' || cmd === 'new') {
-		if (!user.can('tournaments', null, room))
+		if (!user.can('tournaments', room))
 			return this.sendReply(cmd + " -  Access denied.");
 		if (params.length < 2)
 			return this.sendReply("Usage: " + cmd + " <format>, <type> [, <comma-separated arguments>]");
 
-		createTournament(room, params.shift(), params.shift(), Config.istournamentsrated, params, this);
+		createTournament(room, params.shift(), params.shift(), Config.isTournamentsRated, params, this);
 	} else {
 		var tournament = getTournament(room.title);
 		if (!tournament)
@@ -674,13 +733,13 @@ CommandParser.commands.tournament = function (paramString, room, user) {
 			commandHandler = typeof commands.basic[cmd] === 'string' ? commands.basic[commands.basic[cmd]] : commands.basic[cmd];
 
 		if (commands.creation[cmd]) {
-			if (!user.can('tournaments', null, room))
+			if (!user.can('tournaments', room))
 				return this.sendReply(cmd + " -  Access denied.");
 			commandHandler = typeof commands.creation[cmd] === 'string' ? commands.creation[commands.creation[cmd]] : commands.creation[cmd];
 		}
 
 		if (commands.moderation[cmd]) {
-			if (!user.can('tournamentsmoderation', null, room))
+			if (!user.can('tournamentsmoderation', room))
 				return this.sendReply(cmd + " -  Access denied.");
 			commandHandler = typeof commands.moderation[cmd] === 'string' ? commands.moderation[commands.moderation[cmd]] : commands.moderation[cmd];
 		}

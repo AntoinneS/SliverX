@@ -11,8 +11,6 @@
  * @license MIT license
  */
 
-var fs = require('fs');
-
 module.exports = (function () {
 	var moddedTools = {};
 
@@ -560,14 +558,6 @@ module.exports = (function () {
 		return d[n][m];
 	};
 
-	Tools.prototype.clampIntRange = function(num, min, max) {
-		if (typeof num !== 'number') num = 0;
-		num = Math.floor(num);
-		if (num < min) num = min;
-		if (max !== undefined && num > max) num = max;
-		return num;
-	};
-
 	Tools.prototype.dataSearch = function(target, searchIn) {
 		if (!target) {
 			return false;
@@ -699,7 +689,7 @@ module.exports = (function () {
 			if (set.gender && set.gender !== template.gender) {
 				buf += '|'+set.gender;
 			} else {
-				buf += '|';
+				buf += '|'
 			}
 
 			// ivs
@@ -717,14 +707,14 @@ module.exports = (function () {
 			if (set.shiny) {
 				buf += '|S';
 			} else {
-				buf += '|';
+				buf += '|'
 			}
 
 			// level
 			if (set.level && set.level != 100) {
 				buf += '|'+set.level;
 			} else {
-				buf += '|';
+				buf += '|'
 			}
 
 			// happiness

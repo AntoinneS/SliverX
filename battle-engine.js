@@ -12,21 +12,17 @@
 
 require('sugar');
 
+global.fs = require('fs');
+if (!('existsSync' in fs)) {
+	// for compatibility with ancient versions of node
+	fs.existsSync = require('path').existsSync;
+}
 global.Config = require('./config/config.js');
 
-if (Config.crashguard) {
-	// graceful crash - allow current battles to finish before restarting
-	process.on('uncaughtException', function (err) {
-		require('./crashlogger.js')(err, 'A simulator process');
-		/* var stack = (""+err.stack).split("\n").slice(0,2).join("<br />");
-		if (Rooms.lobby) {
-			Rooms.lobby.addRaw('<div><b>THE SERVER HAS CRASHED:</b> '+stack+'<br />Please restart the server.</div>');
-			Rooms.lobby.addRaw('<div>You will not be able to talk in the lobby or start new battles until the server restarts.</div>');
-		}
-		Config.modchat = 'crash';
-		Rooms.global.lockdown = true; */
-	});
-}
+// graceful crash - allow current battles to finish before restarting
+/*process.on('uncaughtException', function (err) {
+	require('./crashlogger.js')(err, 'A simulator process');
+});*/
 
 /**
  * Converts anything to an ID. An ID must have only lowercase alphanumeric
@@ -42,6 +38,7 @@ global.toId = function(text) {
 
 	return string(text).toLowerCase().replace(/[^a-z0-9]+/g, '');
 };
+global.toUserid = toId;
 
 /**
  * Validates a username or Pokemon nickname
@@ -75,13 +72,25 @@ global.string = function(str) {
 	return '';
 };
 
+/**
+ * Converts any variable to an integer (numbers get floored, non-numbers
+ * become 0). Then clamps it between min and (optionally) max.
+ */
+clampIntRange = function(num, min, max) {
+	if (typeof num !== 'number') num = 0;
+	num = Math.floor(num);
+	if (num < min) num = min;
+	if (max !== undefined && num > max) num = max;
+	return num;
+};
+
 global.Tools = require('./tools.js');
 
 var Battles = {};
 
 // Receive and process a message sent using Simulator.prototype.send in
 // another process.
-process.on('message', function(message) {
+battleEngineFakeProcess.client.on('message', function(message) {
 	//console.log('CHILD MESSAGE RECV: "'+message+'"');
 	var nlIndex = message.indexOf("\n");
 	var more = '';
@@ -102,9 +111,9 @@ process.on('message', function(message) {
 
 				if (!require('./crashlogger.js')(fakeErr, 'A battle')) {
 					var ministack = (""+err.stack).split("\n").slice(0,2).join("<br />");
-					process.send(data[0]+'\nupdate\n|html|<div class="broadcast-red"><b>A BATTLE PROCESS HAS CRASHED:</b> '+ministack+'</div>');
+					battleEngineFakeProcess.client.send(data[0]+'\nupdate\n|html|<div class="broadcast-red"><b>A BATTLE PROCESS HAS CRASHED:</b> '+ministack+'</div>');
 				} else {
-					process.send(data[0]+'\nupdate\n|html|<div class="broadcast-red"><b>The battle crashed!</b><br />Don\'t worry, we\'re working on fixing it.</div>');
+					battleEngineFakeProcess.client.send(data[0]+'\nupdate\n|html|<div class="broadcast-red"><b>The battle crashed!</b><br />Don\'t worry, we\'re working on fixing it.</div>');
 				}
 			}
 		}
@@ -177,12 +186,12 @@ var BattlePokemon = (function() {
 		this.moveset = [];
 		this.baseMoveset = [];
 
-		this.level = this.battle.clampIntRange(set.forcedLevel || set.level || 100, 1, 1000);
+		this.level = clampIntRange(set.forcedLevel || set.level || 100, 1, 1000);
 
 		var genders = {M:'M',F:'F'};
 		this.gender = this.template.gender || genders[set.gender] || (Math.random()*2<1?'M':'F');
 		if (this.gender === 'N') this.gender = '';
-		this.happiness = typeof set.happiness === 'number' ? this.battle.clampIntRange(set.happiness, 0, 255) : 255;
+		this.happiness = typeof set.happiness === 'number' ? clampIntRange(set.happiness, 0, 255) : 255;
 		this.pokeball = this.set.pokeball || 'pokeball';
 
 		this.fullname = this.side.id + ': ' + this.name;
@@ -259,10 +268,10 @@ var BattlePokemon = (function() {
 			if (!this.set.ivs[i] && this.set.ivs[i] !== 0) this.set.ivs[i] = 31;
 		}
 		for (var i in this.set.evs) {
-			this.set.evs[i] = this.battle.clampIntRange(this.set.evs[i], 0, 255);
+			this.set.evs[i] = clampIntRange(this.set.evs[i], 0, 255);
 		}
 		for (var i in this.set.ivs) {
-			this.set.ivs[i] = this.battle.clampIntRange(this.set.ivs[i], 0, 31);
+			this.set.ivs[i] = clampIntRange(this.set.ivs[i], 0, 31);
 		}
 
 		var hpTypes = ['Fighting','Flying','Poison','Ground','Rock','Bug','Ghost','Steel','Fire','Water','Grass','Electric','Psychic','Ice','Dragon','Dark'];
@@ -434,7 +443,7 @@ var BattlePokemon = (function() {
 
 		// base stat
 		var stat = this.stats[statName];
-		
+
 		// stat boosts
 		if (!unboosted) {
 			var boost = this.boosts[statName];
@@ -562,7 +571,7 @@ var BattlePokemon = (function() {
 	BattlePokemon.prototype.getRequestData = function() {
 		var lockedMove = this.getLockedMove();
 		var data = {moves: this.getMoves(lockedMove)};
-		if (this.trapped) {
+		if (lockedMove && this.trapped) {
 			data.trapped = true;
 		} else if (this.maybeTrapped) {
 			data.maybeTrapped = true;
@@ -805,8 +814,8 @@ var BattlePokemon = (function() {
 		}
 		return false;
 	};
-	BattlePokemon.prototype.getValidMoves = function(lockedMove) {
-		var pMoves = this.getMoves(lockedMove);
+	BattlePokemon.prototype.getValidMoves = function() {
+		var pMoves = this.getMoves(this.getLockedMove());
 		var moves = [];
 		for (var i=0; i<pMoves.length; i++) {
 			if (!pMoves[i].disabled) {
@@ -2603,7 +2612,7 @@ var Battle = (function() {
 		if (!target || !target.hp) return 0;
 		effect = this.getEffect(effect);
 		if (!(damage || damage === 0)) return damage;
-		if (damage !== 0) damage = this.clampIntRange(damage, 1);
+		if (damage !== 0) damage = clampIntRange(damage, 1);
 
 		if (effect.id !== 'struggle-recoil') { // Struggle recoil is not affected by effects
 			if (effect.effectType === 'Weather' && !target.runImmunity(effect.id)) {
@@ -2621,7 +2630,7 @@ var Battle = (function() {
 				this.add('replace', target, target.getDetails);
 			}
 		}
-		if (damage !== 0) damage = this.clampIntRange(damage, 1);
+		if (damage !== 0) damage = clampIntRange(damage, 1);
 		damage = target.damage(damage, source, effect);
 		if (source) source.lastDamage = damage;
 		var name = effect.fullname;
@@ -2642,7 +2651,7 @@ var Battle = (function() {
 		}
 
 		if (effect.recoil && source) {
-			this.damage(this.clampIntRange(Math.round(damage * effect.recoil[0] / effect.recoil[1]), 1), source, target, 'recoil');
+			this.damage(clampIntRange(Math.round(damage * effect.recoil[0] / effect.recoil[1]), 1), source, target, 'recoil');
 		}
 		if (effect.drain && source) {
 			this.heal(Math.ceil(damage * effect.drain[0] / effect.drain[1]), source, target, 'drain');
@@ -2665,7 +2674,7 @@ var Battle = (function() {
 		}
 		if (!target || !target.hp) return 0;
 		if (!damage) return 0;
-		damage = this.clampIntRange(damage, 1);
+		damage = clampIntRange(damage, 1);
 
 		damage = target.damage(damage, source, effect);
 		switch (effect.id) {
@@ -2816,13 +2825,13 @@ var Battle = (function() {
 			if (basePower === 0) return; // returning undefined means not dealing damage
 			return basePower;
 		}
-		basePower = this.clampIntRange(basePower, 1);
+		basePower = clampIntRange(basePower, 1);
 
 		if (this.gen <= 5) {
-			move.critRatio = this.clampIntRange(move.critRatio, 0, 5);
+			move.critRatio = clampIntRange(move.critRatio, 0, 5);
 			var critMult = [0, 16, 8, 4, 3, 2];
 		} else {
-			move.critRatio = this.clampIntRange(move.critRatio, 0, 4);
+			move.critRatio = clampIntRange(move.critRatio, 0, 4);
 			var critMult = [0, 16, 8, 2, 1];
 		}
 
@@ -2840,7 +2849,7 @@ var Battle = (function() {
 		basePower = this.runEvent('BasePower', pokemon, target, move, basePower, true);
 
 		if (!basePower) return 0;
-		basePower = this.clampIntRange(basePower, 1);
+		basePower = clampIntRange(basePower, 1);
 
 		var level = pokemon.level;
 
@@ -2854,22 +2863,22 @@ var Battle = (function() {
 
 		var atkBoosts = move.useTargetOffensive ? defender.boosts[attackStat] : attacker.boosts[attackStat];
 		var defBoosts = move.useSourceDefensive ? attacker.boosts[defenseStat] : defender.boosts[defenseStat];
-		
+
 		var ignoreNegativeOffensive = !!move.ignoreNegativeOffensive;
 		var ignorePositiveDefensive = !!move.ignorePositiveDefensive;
-		
+
 		if (move.crit) {
 			ignoreNegativeOffensive = true;
 			ignorePositiveDefensive = true;
 		}
-		
+
 		if (move.ignoreOffensive || (ignoreNegativeOffensive && atkBoosts < 0)) {
 			var ignoreOffensive = true;
 		}
 		if (move.ignoreDefensive || (ignorePositiveDefensive && defBoosts > 0)) {
 			var ignoreDefensive = true;
 		}
-		
+
 		if (ignoreOffensive) {
 			this.debug('Negating (sp)atk boost/penalty.');
 			atkBoosts = 0;
@@ -2881,10 +2890,10 @@ var Battle = (function() {
 
 		if (move.useTargetOffensive) attack = defender.calculateStat(attackStat, atkBoosts);
 		else attack = attacker.calculateStat(attackStat, atkBoosts);
-		
+
 		if (move.useSourceDefensive) defense = attacker.calculateStat(defenseStat, defBoosts);
 		else defense = defender.calculateStat(defenseStat, defBoosts);
-		
+
 		// Apply Stat Modifiers
 		attack = this.runEvent('Modify'+statTable[attackStat], attacker, defender, move, attack);
 		defense = this.runEvent('Modify'+statTable[defenseStat], defender, attacker, move, defense);
@@ -2928,7 +2937,7 @@ var Battle = (function() {
 			totalTypeMod = this.getEffectiveness(move, target, pokemon);
 		}
 
-		totalTypeMod = this.clampIntRange(totalTypeMod, -3, 3);
+		totalTypeMod = clampIntRange(totalTypeMod, -3, 3);
 		if (totalTypeMod > 0) {
 			if (!suppressMessages) this.add('-supereffective', target);
 
@@ -2980,15 +2989,14 @@ var Battle = (function() {
 		}
 		return false;
 	};
-	Battle.prototype.getTargetLoc = function(target, source) {
-		if (target.side == source.side) {
-			return -(target.position+1);
-		} else {
-			return target.position+1;
-		}
-	};
 	Battle.prototype.validTarget = function(target, source, targetType) {
-		return this.validTargetLoc(this.getTargetLoc(target, source), source, targetType);
+		var targetLoc;
+		if (target.side == source.side) {
+			targetLoc = -(target.position+1);
+		} else {
+			targetLoc = target.position+1;
+		}
+		return this.validTargetLoc(targetLoc, source, targetType);
 	};
 	Battle.prototype.getTarget = function(decision) {
 		var move = this.getMove(decision.move);
@@ -3626,8 +3634,7 @@ var Battle = (function() {
 			case 'move':
 				var targetLoc = 0;
 				var pokemon = side.pokemon[i];
-				var lockedMove = pokemon.getLockedMove();
-				var validMoves = pokemon.getValidMoves(lockedMove);
+				var validMoves = pokemon.getValidMoves();
 				var moveid = '';
 
 				if (data.substr(data.length-2) === ' 1') targetLoc = 1;
@@ -3639,15 +3646,11 @@ var Battle = (function() {
 
 				if (targetLoc) data = data.substr(0, data.lastIndexOf(' '));
 
-				if (lockedMove) targetLoc = (this.runEvent('LockMoveTarget', pokemon) || 0);
-
 				if (data.substr(data.length-5) === ' mega') {
-					if (!lockedMove) {
-						decisions.push({
-							choice: 'megaEvo',
-							pokemon: pokemon
-						});
-					}
+					decisions.push({
+						choice: 'megaEvo',
+						pokemon: pokemon
+					});
 					data = data.substr(0, data.length-5);
 				}
 
@@ -3779,7 +3782,7 @@ var Battle = (function() {
 	// Simulator.prototype.receive in simulator.js (in another process).
 	Battle.prototype.send = function(type, data) {
 		if (Array.isArray(data)) data = data.join("\n");
-		process.send(this.id+"\n"+type+"\n"+data);
+		battleEngineFakeProcess.client.send(this.id+"\n"+type+"\n"+data);
 	};
 	// This function is called by this process's 'message' event.
 	Battle.prototype.receive = function(data, more) {

@@ -1,3 +1,9 @@
+function clampIntRange(num, min, max) {
+	num = Math.floor(num);
+	if (num < min) num = min;
+	if (typeof max !== 'undefined' && num > max) num = max;
+	return num;
+}
 exports.BattleMovedex = {
 	acupressure: {
 		inherit: true,
@@ -564,7 +570,7 @@ exports.BattleMovedex = {
 		pp: 20,
 		onMoveFail: function(target, source, move) {
 			var damage = this.getDamage(source, target, move, true);
-			this.damage(this.clampIntRange(damage/2, 1, Math.floor(target.maxhp/2)), source);
+			this.damage(clampIntRange(damage/2, 1, Math.floor(target.maxhp/2)), source);
 		}
 	},
 	iciclespear: {
@@ -593,7 +599,7 @@ exports.BattleMovedex = {
 		pp: 25,
 		onMoveFail: function(target, source, move) {
 			var damage = this.getDamage(source, target, move, true);
-			this.damage(this.clampIntRange(damage/2, 1, Math.floor(target.maxhp/2)), source);
+			this.damage(clampIntRange(damage/2, 1, Math.floor(target.maxhp/2)), source);
 		}
 	},
 	lastresort: {

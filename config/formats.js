@@ -56,7 +56,11 @@ exports.Formats = [
 
 		maxLevel: 5,
 		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Little Cup'],
+<<<<<<< HEAD
 		banlist: ['Sonicboom', 'Dragon Rage', 'LC Uber', 'Swagger']
+=======
+		banlist: ['Sonicboom', 'Dragon Rage', 'Scyther', 'Sneasel', 'Yanma', 'Tangela', 'Swirlix', 'Gligar']
+>>>>>>> upstream/master
 	},
 	{
 		name: "XY Battle Spot Singles",
@@ -129,7 +133,11 @@ exports.Formats = [
 	// XY Doubles
 	///////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> upstream/master
 	{
 		name: "Random Doubles Battle",
 		section: "XY Doubles",
@@ -290,11 +298,25 @@ exports.Formats = [
 		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite']
 	},
 	{
+<<<<<<< HEAD
+=======
+		name: "Stat Reversal",
+		section: "Other Metagames",
+
+		mod: 'statreversal',
+		ruleset: ['OU'],
+	},
+	{
+>>>>>>> upstream/master
 		name: "CAP",
 		section: "Other Metagames",
 
 		ruleset: ['CAP Pokemon', 'Standard', 'Team Preview'],
+<<<<<<< HEAD
 		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Swagger']
+=======
+		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite']
+>>>>>>> upstream/master
 	},
 	{
 		name: "Challenge Cup",
@@ -729,6 +751,7 @@ exports.Formats = [
 		banlist: ['Uber', 'OU', 'BL']
 	},
 	{
+<<<<<<< HEAD
 		name: "[Gen 4] LC (beta)",
 		section: "Past Generations",
 
@@ -738,6 +761,8 @@ exports.Formats = [
 		banlist: ['Sonic Boom', 'Dragon Rage', 'DeepSeaTooth', 'Berry Juice', 'Scyther', 'Sneasel', 'Yanma', 'Tangela', 'Misdreavus', 'Meditite', 'Murkrow']
 	},
 	{
+=======
+>>>>>>> upstream/master
 		name: "[Gen 4] Hackmons",
 		section: "Past Generations",
 
