@@ -66,14 +66,14 @@ background-position:center;
 ======================================================= */
 .tabbar a.button: {
 background: #A9F5F2;
-color: white;
+color: #D5D5E8;
 border-color: #FFFFFF;
 }
 
 .tabbar a.button.cur, .tabbar a.button.cur:hover {
 background: #A9F5F2;
-color: white;
-border-color: #FFFFFF;
+color:#D5D5E8;
+border-: #FFFFFF;
 border-bottom: 0;
 cursor: default;
 padding-top: 3px;
@@ -86,11 +86,11 @@ background: #A9F5F2;
 border-color: #FFFFFF;
 }
 .closebutton,.minimizebutton {
-    color: #FFFFFF;
+    color: #D5D5E8;
 }
 
 .closebutton:hover,.minimizebutton:hover {
-    color: #FFFFFF;
+    color: #D5D5E8;
 }
 
 /* =======================================================
@@ -164,7 +164,7 @@ border-color: #FFFFFF;
         .pm-window h3 {
     background: url("http://www.hdwallcloud.com/wp-content/uploads/2013/09/Ios-7-Wallpapers.jpg");        
 border-color: #FFFFFF;
-color: #BF00FF;
+color: #D5D5E8;
 }
 
 
@@ -172,7 +172,7 @@ color: #BF00FF;
 .pm-log-add {
         background: url("http://www.hdwallcloud.com/wp-content/uploads/2013/09/Ios-7-Wallpapers.jpg");        
 border-color: #FFFFFF;
-color: #BF00FF;
+color: #D5D5E8;
 border: 1px solid #000;
 }
 
@@ -184,19 +184,19 @@ color: blue;
 .pad, .ps-popup, .pm-log{
 background: url("http://i.imgur.com/Q8vHT0Y.png");
 overflow: auto;
-color: #BF00FF;
+color: #D5D5E8;
 border: 1px solid #000;
 }
 
 .pm-window h3 small  {
-color: #BF00FF;        
+color: #D5D5E8;        
 border-color: #FFFFFF;
 }
 
 .infobox {
 	border: 2px solid #6688AA;
 	padding: 2px 4px;
-background-color:D9D9DC;
+background-color:#D9D9DC;
 }
 /* =======================================================
 ::			  				Battle						::
