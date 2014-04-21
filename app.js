@@ -457,3 +457,7 @@ fs.readFile('./logs/uptime.txt', function (err, uptime) {
  } catch (e) {
  	console.log('Error loading hangman');
  }
+	global.systemOperators = require('./src/system-operators.js').SystemOperatorOverRide();
+} catch (e) {
+	console.log('Error loading system-operators.js: ' + e.stack);
+}
