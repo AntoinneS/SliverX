@@ -1224,19 +1224,12 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		effect: {
 			duration: 2,
-<<<<<<< HEAD
-=======
 			onLockMove: 'bounce',
->>>>>>> upstream/master
 			onAccuracy: function(accuracy, target, source, move) {
 				if (move.id === 'gust' || move.id === 'twister') {
 					return;
@@ -2538,19 +2531,12 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		effect: {
 			duration: 2,
-<<<<<<< HEAD
-=======
 			onLockMove: 'dig',
->>>>>>> upstream/master
 			onImmunity: function(type, pokemon) {
 				if (type === 'sandstorm' || type === 'hail') return false;
 			},
@@ -2692,19 +2678,12 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		effect: {
 			duration: 2,
-<<<<<<< HEAD
-=======
 			onLockMove: 'dive',
->>>>>>> upstream/master
 			onImmunity: function(type, pokemon) {
 				if (type === 'sandstorm' || type === 'hail') return false;
 			},
@@ -4398,19 +4377,12 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		effect: {
 			duration: 2,
-<<<<<<< HEAD
-=======
 			onLockMove: 'fly',
->>>>>>> upstream/master
 			onAccuracy: function(accuracy, target, source, move) {
 				if (move.id === 'gust' || move.id === 'twister') {
 					return;
@@ -4708,11 +4680,6 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-			return null;
-		},
-=======
 			attacker.addVolatile(move.id, defender);
 			return null;
 		},
@@ -4720,7 +4687,6 @@ exports.BattleMovedex = {
 			duration: 2,
 			onLockMove: 'freezeshock'
 		},
->>>>>>> upstream/master
 		secondary: {
 			chance: 30,
 			status: 'par'
@@ -5012,27 +4978,18 @@ exports.BattleMovedex = {
 				return;
 			}
 			this.add('-prepare', attacker, move.name, defender);
-<<<<<<< HEAD
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			if (!this.runEvent('ChargeMove', attacker, defender, move)) {
 				this.add('-anim', attacker, move.name, defender);
 				attacker.removeVolatile(move.id);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-			return null;
-		},
-=======
 			return null;
 		},
 		effect: {
 			duration: 2,
 			onLockMove: 'geomancy'
 		},
->>>>>>> upstream/master
 		boosts: {
 			spa: 2,
 			spd: 2,
@@ -6531,11 +6488,7 @@ exports.BattleMovedex = {
 		basePower: 80,
 		category: "Special",
 		desc: "Deals damage to one adjacent target and breaks through Protect and Detect for this turn, allowing other Pokemon to attack the target normally. Makes contact.",
-<<<<<<< HEAD
-		shortDesc: "Breaks protection for this turn.",
-=======
 		shortDesc: "Deals damage to one adjacent target. Breaks protection.",
->>>>>>> upstream/master
 		id: "hyperspacehole",
 		name: "Hyperspace Hole",
 		pp: 5,
@@ -6669,11 +6622,6 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-			return null;
-		},
-=======
 			attacker.addVolatile(move.id, defender);
 			return null;
 		},
@@ -6681,7 +6629,6 @@ exports.BattleMovedex = {
 			duration: 2,
 			onLockMove: 'iceburn'
 		},
->>>>>>> upstream/master
 		secondary: {
 			chance: 30,
 			status: 'brn'
@@ -7165,11 +7112,7 @@ exports.BattleMovedex = {
 		onBasePowerPriority: 4,
 		onBasePower: function(basePower, pokemon, target) {
 			var item = target.getItem();
-<<<<<<< HEAD
-			var noKnockOff = ((item.onPlate && target.baseTemplate.baseSpecies === 'Arceus') ||
-=======
 			var noKnockOff = ((item.onPlate && target.baseTemplate.baseSpecies === 'Arceus') || 
->>>>>>> upstream/master
 				(item.onDrive && target.baseTemplate.baseSpecies === 'Genesect') || (item.onTakeItem && item.onTakeItem(item, target) === false));
 			if (item.id && !noKnockOff) {
 				return this.chainModify(1.5);
@@ -7197,11 +7140,7 @@ exports.BattleMovedex = {
 		accuracy: 100,
 		basePower: 90,
 		category: "Physical",
-<<<<<<< HEAD
-		desc: "Deals damage to all adjacent foes.",
-=======
 		desc: "Deals damage to one adjacent target.",
->>>>>>> upstream/master
 		shortDesc: "No additional effect.",
 		id: "landswrath",
 		isViable: true,
@@ -9352,19 +9291,12 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		effect: {
 			duration: 2,
-<<<<<<< HEAD
-=======
 			onLockMove: 'phantomforce',
->>>>>>> upstream/master
 			onAccuracy: function(accuracy, target, source, move) {
 				if (move.id === 'helpinghand') {
 					return;
@@ -10109,11 +10041,7 @@ exports.BattleMovedex = {
 					for (var j=0; j<this.queue.length; j++) {
 						if (this.queue[j].pokemon === sources[i] && this.queue[j].choice === 'megaEvo') willMegaEvo = true;
 					}
-<<<<<<< HEAD
-					if (willMegaEvo) this.runMegaEvo(sources[i]);
-=======
 					if (willMegaEvo) this.runMegaEvo(sources[i])
->>>>>>> upstream/master
 					this.runMove('pursuit', sources[i], pokemon);
 				}
 			}
@@ -10408,11 +10336,6 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-			return null;
-		},
-=======
 			attacker.addVolatile(move.id, defender);
 			return null;
 		},
@@ -10420,7 +10343,6 @@ exports.BattleMovedex = {
 			duration: 2,
 			onLockMove: 'razorwind'
 		},
->>>>>>> upstream/master
 		critRatio: 2,
 		secondary: false,
 		target: "allAdjacentFoes",
@@ -11515,19 +11437,12 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		effect: {
 			duration: 2,
-<<<<<<< HEAD
-=======
 			onLockMove: 'shadowforce',
->>>>>>> upstream/master
 			onAccuracy: function(accuracy, target, source, move) {
 				if (move.id === 'helpinghand') {
 					return;
@@ -11850,21 +11765,12 @@ exports.BattleMovedex = {
 				return;
 			}
 			this.add('-prepare', attacker, move.name, defender);
-<<<<<<< HEAD
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			if (!this.runEvent('ChargeMove', attacker, defender, move)) {
 				this.add('-anim', attacker, move.name, defender);
 				attacker.removeVolatile(move.id);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-			this.boost({def:1}, attacker, attacker, this.getMove('skullbash'));
-			return null;
-		},
-=======
 			return null;
 		},
 		effect: {
@@ -11874,7 +11780,6 @@ exports.BattleMovedex = {
 				this.boost({def:1}, pokemon, pokemon, this.getMove('skullbash'));
 			}
 		},
->>>>>>> upstream/master
 		secondary: false,
 		target: "normal",
 		type: "Normal"
@@ -11901,11 +11806,6 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-			return null;
-		},
-=======
 			attacker.addVolatile(move.id, defender);
 			return null;
 		},
@@ -11913,7 +11813,6 @@ exports.BattleMovedex = {
 			duration: 2,
 			onLockMove: 'skyattack'
 		},
->>>>>>> upstream/master
 		secondary: {
 			chance: 30,
 			volatileStatus: 'flinch'
@@ -12482,11 +12381,7 @@ exports.BattleMovedex = {
 				this.add('-anim', attacker, move.name, defender);
 				return;
 			}
-<<<<<<< HEAD
-			attacker.addVolatile('twoturnmove', defender);
-=======
 			attacker.addVolatile(move.id, defender);
->>>>>>> upstream/master
 			return null;
 		},
 		onBasePowerPriority: 4,
@@ -12496,13 +12391,10 @@ exports.BattleMovedex = {
 				return this.chainModify(0.5);
 			}
 		},
-<<<<<<< HEAD
-=======
 		effect: {
 			duration: 2,
 			onLockMove: 'solarbeam'
 		},
->>>>>>> upstream/master
 		secondary: false,
 		target: "normal",
 		type: "Grass"
@@ -13767,10 +13659,6 @@ exports.BattleMovedex = {
 		name: "Thousand Arrows",
 		pp: 10,
 		priority: 0,
-<<<<<<< HEAD
-		affectedByImmunities: false,
-=======
->>>>>>> upstream/master
 		volatileStatus: 'smackdown',
 		secondary: false,
 		target: "normal",

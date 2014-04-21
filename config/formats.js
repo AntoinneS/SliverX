@@ -56,11 +56,7 @@ exports.Formats = [
 
 		maxLevel: 5,
 		ruleset: ['Pokemon', 'Standard', 'Team Preview', 'Little Cup'],
-<<<<<<< HEAD
-		banlist: ['Sonicboom', 'Dragon Rage', 'LC Uber', 'Swagger']
-=======
 		banlist: ['Sonicboom', 'Dragon Rage', 'Scyther', 'Sneasel', 'Yanma', 'Tangela', 'Swirlix', 'Gligar']
->>>>>>> upstream/master
 	},
 	{
 		name: "XY Battle Spot Singles",
@@ -129,15 +125,36 @@ exports.Formats = [
 		// no restrictions, for serious (other than team preview)
 		ruleset: ['Team Preview']
 	},
+	{
+		name: "C&E",
+
+                section: "XY Singles",
+
+                ruleset: ['Pokemon', 'Standard Pokebank', 'Team Preview'],
+
+                banlist: ['Soul Dew', 'Uber', 'Farfetchd', 'Kangaskhan', 'Pinsir', 'Heracross', 'Unown', 'Girafarig', 'Dunsparce', 'Shuckle', 'Articuno', 'Zapdos', 'Moltres', 'Qwilfish', 'Corsola', 'Delibird', 'Stantler', 'Smeargle', 'Skarmory', 'Miltank', 'Tauros', 'Lapras', 'Ditto', 'Aerodactyl', 'Sableye', 'Mawile', 'Plusle', 'Minum', 'Volbeat', 'Illumise', 'Torkoal', 'Spinda', 'Seviper', 'Zangoose', 'Lunatone', 'Solrock', 'Castform', 'Kecleon', 'Tropius', 'Absol', 'Relicanth', 'Luvdisc', 'Pachirisu']
+
+        },
+	{
+		name: "DDT",
+		section: "XY Singles",
+
+		ruleset: ['Pokemon', 'Sleep Clause Mod', 'Species Clause', 'Unreleased','OHKO Clause', 'Moody Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Team Preview'],
+		banlist: ['OU','Ubers','BrightPowder','Focus Band','Focus Sash','Lax Incense','Quick Claw','Razor Claw','Razor Fang','Chansey','Doublade','Dusclops','Gligar','Jynx','Musharna','Porygon2','Sawk','Scyther','Assist','Attract','Belly Drum + Extreme Speed','Confuse Ray','Flatter','Sticky Web', 'Supersonic','Swagger','Sweet Kiss','Teeter Dance']
+	},
+	{
+		name: "PU",
+		section: "XY Singles",
+
+		ruleset: ['Pokemon', 'Sleep Clause Mod','Unreleased', 'Species Clause', 'OHKO Clause', 'Moody Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Team Preview'],
+		banlist: ['OU','NU','UU','Ubers','BrightPowder','Focus Band','Focus Sash','Lax Incense','Quick Claw','Razor Claw','Razor Fang','Chansey','Doublade','Dusclops','Gligar','Jynx','Musharna','Porygon2','Sawk','Scyther','Assist','Attract','Belly Drum + Extreme Speed','Confuse Ray','Flatter','Sticky Web', 'Supersonic','Swagger','Sweet Kiss','Teeter Dance','Shell Smash + Baton Pass','Speed Boost + Baton Pass','Servine + Contrary','Snivy + Contrary','Skrelp + Adaptability']
+	},
+
 
 	// XY Doubles
 	///////////////////////////////////////////////////////////////////
 
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> upstream/master
 	{
 		name: "Random Doubles Battle",
 		section: "XY Doubles",
@@ -298,8 +315,6 @@ exports.Formats = [
 		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite']
 	},
 	{
-<<<<<<< HEAD
-=======
 		name: "Stat Reversal",
 		section: "Other Metagames",
 
@@ -307,16 +322,11 @@ exports.Formats = [
 		ruleset: ['OU'],
 	},
 	{
->>>>>>> upstream/master
 		name: "CAP",
 		section: "Other Metagames",
 
 		ruleset: ['CAP Pokemon', 'Standard', 'Team Preview'],
-<<<<<<< HEAD
-		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite', 'Swagger']
-=======
 		banlist: ['Uber', 'Soul Dew', 'Gengarite', 'Kangaskhanite', 'Lucarionite']
->>>>>>> upstream/master
 	},
 	{
 		name: "Challenge Cup",
@@ -751,18 +761,6 @@ exports.Formats = [
 		banlist: ['Uber', 'OU', 'BL']
 	},
 	{
-<<<<<<< HEAD
-		name: "[Gen 4] LC (beta)",
-		section: "Past Generations",
-
-		mod: 'gen4',
-		maxLevel: 5,
-		ruleset: ['Pokemon', 'Standard', 'Little Cup'],
-		banlist: ['Sonic Boom', 'Dragon Rage', 'DeepSeaTooth', 'Berry Juice', 'Scyther', 'Sneasel', 'Yanma', 'Tangela', 'Misdreavus', 'Meditite', 'Murkrow']
-	},
-	{
-=======
->>>>>>> upstream/master
 		name: "[Gen 4] Hackmons",
 		section: "Past Generations",
 
