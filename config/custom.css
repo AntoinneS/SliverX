@@ -172,7 +172,7 @@ color: #D5D5E8;
 .pm-log-add {
         background: url("http://www.hdwallcloud.com/wp-content/uploads/2013/09/Ios-7-Wallpapers.jpg");        
 border-color: #FFFFFF;
-color: #D5D5E8;
+color: black;
 border: 1px solid #000;
 }
 
@@ -184,7 +184,7 @@ color: blue;
 .pad, .ps-popup, .pm-log{
 background: url("http://i.imgur.com/Q8vHT0Y.png");
 overflow: auto;
-color: #D5D5E8;
+color: black;
 border: 1px solid #000;
 }
 
