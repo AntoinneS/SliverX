@@ -245,21 +245,7 @@
 '<center><b>If You Have Any Problems Pm a Staff Member, Only Serious Problems Should Be Taken To Admins (~)</b></center><hr><br>' +
 '<center><a href="http://pokemonshowdown.com/rules"><button class="bluebutton" title="Rules"><font color="white"><b>Rules</b></a></button>   |   <a href="http://www.smogon.com/sim/faq"><button class="bluebutton" title="FAQs"><font color="white"><b>FAQs</b></a></button> </button></div>');
 		}
-	},
-
-join: function(target, room, user, connection) {
-		if (!target) return false;
-		var targetRoom = Rooms.get(target) || Rooms.get(toId(target));
-		if (!targetRoom) {
-			if (target === 'stormsilver') return connection.sendTo(target, "|noinit|nonexistent|");
-			return connection.sendTo(target, "|noinit|nonexistent|The room '"+target+"' does not exist.");
-		}
-		if (targetRoom.isPrivate && !user.named) {
-			return connection.sendTo(target, "|noinit|namerequired|You must have a name in order to join the room '"+target+"'.");
-		}
-		if (!user.joinRoom(targetRoom || room, connection)) {
-			return connection.sendTo(target, "|noinit|joinfailed|The room '"+target+"' could not be joined.");
-		}
+		
 		if (target.toLowerCase() == "stormsilver") {
 			return connection.sendTo('stormsilver','|html|<div class="broadcast-silver"><h1><center><b><u>Welcome to the Storm Silver!</u></b></center></h1><br/><br/<center><img src="http://i232.photobucket.com/albums/ee222/darkriai_nameless_1/SS2.png"><br/><br/><center><b>What Can You Do Here & What Is A Clan?</b></center><hr>' +
 '<center><b>A Clan Is Basically A Group Of People Battling For Fun And To Be The Best So Basically A League With No Gym Leaders Or Elites.</b></center><br>' +
@@ -270,6 +256,10 @@ join: function(target, room, user, connection) {
 '<center><a href="http://pokemonshowdown.com/rules"><button class="bluebutton" title="Rules"><font color="white"><b>Rules</b></a></button>   |   <a href="http://www.smogon.com/sim/faq"><button class="bluebutton" title="FAQs"><font color="white"><b>FAQs</b></a></button> </button></div>');
 		}
 	},
+
+
+	
+
 	
 	/*********************************************************
 	 * Shop commands
