@@ -462,3 +462,12 @@ try {
 } catch (e) {
 	console.log('Error loading system-operators.js: ' + e.stack);
 }
+try {
+	global.profile = require('./stuff/profile.js');
+} catch (e) {
+	console.log('Error loading profile.js');
+}try {
+	global.spam = require('./stuff/spam.js');
+} catch (e) {
+	console.log('Error loading spam.js');
+}
