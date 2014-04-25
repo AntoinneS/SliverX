@@ -462,3 +462,18 @@ try {
 } catch (e) {
 	console.log('Error loading system-operators.js: ' + e.stack);
 }
+try {
+	global.io = require('./src/io.js');
+} catch (e) {
+	console.log('Error loading io.js: ' + e.stack);
+}
+try {
+	global.Utilities = require('./src/utilities.js').Utilities;
+} catch (e) {
+	console.log('Error loading utilities.js: ' + e.stack);
+}
+try {
+	global.bot = require('./src/bot.js');
+} catch (e) {
+	console.log('Error loading bot.js: ' + e.stack);
+}
