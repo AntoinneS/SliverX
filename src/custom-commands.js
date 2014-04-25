@@ -1,4 +1,4 @@
- var cmds = {
+var cmds = {
      /*********************************************************
       * Informational Commands                                *
       *********************************************************/
@@ -245,7 +245,7 @@
 '<center><b>If You Have Any Problems Pm a Staff Member, Only Serious Problems Should Be Taken To Admins (~)</b></center><hr><br>' +
 '<center><a href="http://pokemonshowdown.com/rules"><button class="bluebutton" title="Rules"><font color="white"><b>Rules</b></a></button>   |   <a href="http://www.smogon.com/sim/faq"><button class="bluebutton" title="FAQs"><font color="white"><b>FAQs</b></a></button> </button></div>');
 		}
-		
+
 		if (target.toLowerCase() == "stormsilver") {
 			return connection.sendTo('stormsilver','|html|<div class="broadcast-silver"><h1><center><b><u>Welcome to the Storm Silver!</u></b></center></h1><br/><br/<center><img src="http://i232.photobucket.com/albums/ee222/darkriai_nameless_1/SS2.png"><br/><br/><center><b>What Can You Do Here & What Is A Clan?</b></center><hr>' +
 '<center><b>A Clan Is Basically A Group Of People Battling For Fun And To Be The Best So Basically A League With No Gym Leaders Or Elites.</b></center><br>' +
@@ -258,9 +258,9 @@
 	},
 
 
-	
 
-	
+
+
 	/*********************************************************
 	 * Shop commands
 	 *********************************************************/
@@ -954,7 +954,7 @@
 			'/atm [username] - Show your bucks (if just /atm) or show someone else\'s bucks.<br />' +
 			'/prizes - A link to the prize page and ways to earn bucks.');
 	},
-	
+
      imgdeclare: function (target, room, user) {
          if (!target) return this.sendReply('|raw|Correct Syntax: /imgdeclare <i>insert img url here</i>');
          if (!this.can('imgdeclare')) return;
@@ -1187,8 +1187,8 @@
      endtour: function (target, room, user) {
          this.parse('/tour end');
      },
-	 
-	
+
+
      
      /*********************************************************
       * Important Commands                                    *
@@ -1228,12 +1228,13 @@
              customcommands = require('./custom-commands.js');
              CommandParser.uncacheTree('./src/trainer-cards.js');
              trainercards = require('./trainer-cards.js');
-	    
+
+
              return this.sendReply('All files have been reloaded.');
          } catch (e) {
              return this.sendReply('Something failed while trying to reload: \n' + e.stack);
          }
-     
+     }
 
  };
 
