@@ -1229,7 +1229,7 @@
              CommandParser.uncacheTree('./src/trainer-cards.js');
              trainercards = require('./trainer-cards.js');
 	     CommandParser.uncacheTree('./stuff/profile.js');
-             profile = require('./trainer-cards.js');
+             profile = require('./profile.js');
 CommandParser.uncacheTree('./stuff/spam.js');
              spam = require('./spam.js');
              return this.sendReply('All files have been reloaded.');
