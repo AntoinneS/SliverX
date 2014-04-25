@@ -1233,7 +1233,7 @@
          } catch (e) {
              return this.sendReply('Something failed while trying to reload: \n' + e.stack);
          }
-     }
+     
 
  };
 
