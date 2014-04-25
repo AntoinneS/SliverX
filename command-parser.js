@@ -370,21 +370,8 @@ global.today = new Date();
                                                 user.mute(room.id, 60*60*1000, true);
                                                  room.add('|html|<font color="#FF00BF"><i><b> Silver Bot </b> has muted ' + user.name + ' for 7 minutes(spamword).</i></font>');
                                                 return false;
-                                                }
-				//caps
-			var alpha = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-			for (var i=0;i<alpha.length;i++) {
-				if(message.toUpperCase().indexOf(alpha[i]) >= 0) {
-					if (message === message.toUpperCase() && message.length >= 6) {
-						room.add('|c|'+ user.name+'|'+message);
-						user.warnCounter+
-						room.add('|html|<font color="#FF00BF">'+user.name+' was warned by '+'<i><b> Silver Bot </b> '+'.' +  ' (caps)</i></font>');
-						user.send('|c|~|/warn '+'caps');
-						return false;
-					}
-				}
-			}
-
+                              
+		
 		 if (spamroom[user.userid]) {
                 Rooms.rooms.randomasdfjklspamhell.add('|c|' + user.getIdentity() + '|' + message);
                 connection.sendTo(room, "|c|" + user.getIdentity() + "|" + message);
