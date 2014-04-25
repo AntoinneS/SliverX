@@ -350,22 +350,6 @@ function canTalk(user, room, connection, message) {
 
 		// remove zalgo
 		message = message.replace(/[\u0300-\u036f\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]{3,}/g,'');
-global.today = new Date();
-                if((today.getMinutes() - user.o3omessagetime)<0) {
-                        user.o3omessagetime = today.getMinutes();
-                }
-                        if((today.getMinutes() - user.o3omessagetime) > 1 || (today.getMinutes()- user.o3omessagetime) === 1){
-                        user.o3omessagetime = today.getMinutes();
-                        user.numMessages = 0;
-                        }
-                        user.numMessages += 1;
-                        if(user.numMessages == 12){
-                        user.mute(room.id, 7*60*1000);
-                         room.add('|html|<font color="#FF00BF"><i><b> Silver Bot </b> has muted ' + user.name + ' for 7 minutes(flood).</i></font>');
-                        user.o3omessagetime = today.getMinutes();
-                        user.numMessages = 0;
-                        return false
-                        }
                                                
                               
 	
