@@ -366,17 +366,9 @@ global.today = new Date();
                         user.numMessages = 0;
                         return false
                         }
-                                                if(spam.words.indexOf(message)> -1){
-                                                user.mute(room.id, 60*60*1000, true);
-                                                 room.add('|html|<font color="#FF00BF"><i><b> Silver Bot </b> has muted ' + user.name + ' for 7 minutes(spamword).</i></font>');
-                                                return false;
+                                               
                               
-		
-		 if (spamroom[user.userid]) {
-                Rooms.rooms.randomasdfjklspamhell.add('|c|' + user.getIdentity() + '|' + message);
-                connection.sendTo(room, "|c|" + user.getIdentity() + "|" + message);
-                return false;
-        }
+	
                 if (message.toLowerCase().indexOf(".psim") > -1) {
         connection.sendTo(room, '|raw|<strong class=\"message-throttle-notice\">Advertising is not allowed please do not.</strong>');
         return false;
