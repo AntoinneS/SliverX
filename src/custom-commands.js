@@ -912,7 +912,7 @@ target.toLowerCase().replace(/ /g,'-');
 	        systemOperators = require('./system-operators.js').SystemOperatorOverRide();
 
 	        this.sendReply('Reloading hangman.js...');
-	        CommandParser.uncacheTree('./src/hangman.js');
+	        CommandParser.uncacheTree('./hangman.js');
 	        hangman = require('./hangman.js').hangman();
 
 	        this.sendReply('Reloading utilities.js...');
